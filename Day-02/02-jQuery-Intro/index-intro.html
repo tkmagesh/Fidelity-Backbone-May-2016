@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Greeter</title>
+	<script src="jquery-2.2.4.js"></script>
+	<script>
+		window.addEventListener("DOMContentLoaded", init);
+		function init(){
+			var btnGreet = document.getElementById("btnGreet");
+			btnGreet.addEventListener("click", onBtnGreetClick);
+		}
+		function onBtnGreetClick(){
+			var txtName = document.getElementById("txtName");
+			var name = txtName.value;
+			var message = 'Hi ' + name + ', Have a good day!';
+			var divMessage = document.getElementById("divMessage");
+			divMessage.innerHTML = message;
+		}
+
+	</script>
+</head>
+<body>
+	<label for="">Name :</label>
+	<input type="text" name="" id="txtName">
+	<input type="button" value="Greet" id="btnGreet">
+	<div id="divMessage">[Message]</div>
+</body>
+</html>
