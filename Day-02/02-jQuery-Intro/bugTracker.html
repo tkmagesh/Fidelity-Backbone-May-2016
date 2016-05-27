@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Bug Tracker</title>
+	<style>
+		ol{
+			width: 400px;
+			list-style: none;
+		}
+		li{
+			cursor: pointer;
+			border : 1px solid gray;
+			background-color: #e7e7e7;
+			font-size: 18pt;
+			padding: 5px;
+			border-radius: 5px;
+			margin-bottom: 10px;
+		}
+		.closed{
+			color : red;
+			text-decoration: line-through;
+			font-style: italic;
+		}
+	</style>
+</head>
+<body>
+	<h1>Bug Tracker</h1>
+	<hr>
+	<label for="">Bug :</label>
+	<input type="text" name="" id="">
+	<input type="button" value="Add Bug" id="btnAdd">
+	<input type="button" value="Remove Closed" id="btnRemoveClosed">
+	<ol id="olBugList">
+		<li class="closed">User authentication failure</li>
+		<li>Server communication distrupts</li>
+	</ol>
+</body>
+</html>
