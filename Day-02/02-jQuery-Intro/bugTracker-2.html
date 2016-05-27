@@ -27,36 +27,16 @@
 	<script>
 	$(function(){
 		$("#btnAdd").click(function(){
-			var bugName = $("#txtBug").val();
 			$("<li></li>")
-				.html(bugName)
-				//.click(onBugClick)
+				.html($("#txtBug").val())
 				.appendTo("#olBugList");
 		});
-
-		//$("li").click(onBugClick);
-		$("#olBugList").on("click", "li", onBugClick);
-		
-		function onBugClick(e){
+		$("#olBugList").on("click", "li", function (e){
 			var $current = $(e.target);
 			$current.toggleClass('closed');
-		}
+		});
 
 		$("#btnRemoveClosed").click(function(){
-			/*$("#olBugList")
-				.children("li")
-				.each(function(index, element){
-					var $element = $(element);
-					if ($element.hasClass('closed'))
-						$element.remove();	
-				});*/
-			/*$("#olBugList > li")
-				.each(function(index, element){
-					var $element = $(element);
-					if ($element.hasClass('closed'))
-						$element.remove();	
-				});*/
-
 			$("#olBugList > li.closed").remove();	
 		});
 	});
