@@ -14,6 +14,10 @@ function Spinner(){
 Spinner.prototype.up = function(){ return ++this.__count; };
 Spinner.prototype.down = function(){ return --this.__count; };
 
+//static method
+Spinner.isSpinner = function(obj){
+	return obj instanceof Spinner;
+};
 
 
 var s1 = new Spinner();
