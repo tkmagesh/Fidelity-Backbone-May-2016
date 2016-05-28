@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Salary Calculator</title>
+	<style>
+		.field{
+			margin-bottom: 10px
+		}
+		label{
+			display: block;
+		}
+		#divResult{
+			color : red;
+			font-size: 22pt;
+		}
+		body{
+			margin-left: 50px;
+		}
+
+	</style>
+	<script src="jquery-2.2.4.js"></script>
+	<script src="underscore.js"></script>
+	<script src="backbone.js"></script>
+
+	<script type="text/template" id="calculatorTemplate">
+		<div class="field">
+			<label for="">Basic :</label>
+			<input type="text" name="" id="txtBasic">
+		</div>
+		<div class="field">
+			<label for="">HRA :</label>
+			<input type="text" name="" id="txtHra">
+		</div>
+		<div class="field">
+			<label for="">DA :</label>
+			<input type="text" name="" id="txtDa">
+		</div>
+		<div class="field">
+			<label for="">Tax [%] :</label>
+			<input type="range" name="" id="rangeTax" min="0" max="30" value="0">
+			<span id="spanTax">[Tax]</span>
+		</div>
+		<div class="field">
+			<input type="button" value="Calculate" id="btnCalculate">
+		</div>
+		<div class="field">
+			<div id="divResult">[Salary]</div>
+		</div>
+	</script>
+	<script>
+		String.prototype.toInt = function(){
+			return parseInt(this,10);
+		};
+		/*SalaryCalculator
+			-basic
+			-hra
+			-da
+			-tax
+			-salary
+
+			-calculate()
+		*/
+		//Model
+		/*function SalaryCalculator(){
+			var _data = {
+				basic : 0,
+				hra : 0,
+				da : 0,
+				tax : 0,
+				salary : 0
+			};
+			this.get = function(attrName){
+				return _data[attrName];
+			};
+			this.set = function(attrName, value){
+				if (_data[attrName] === value) return;
+				_data[attrName] = value;
+				//trigger change notification for 'attrName'
+				var eventHandlerFns = _eventHandlers[attrName];
+				eventHandlerFns.forEach(function(eventHandlerFn){
+					if (typeof eventHandlerFn === 'function')
+						eventHandlerFn();	
+				});
+				
+			};
+
+			var _eventHandlers = {
+				basic : [],
+				hra : [],
+				da : [],
+				tax : [],
+				salary : []
+			};
+			this.onChange = function(attrName, eventHandlerFn){
+				_eventHandlers[attrName].push(eventHandlerFn);
+			}
+		}
+		SalaryCalculator.prototype.calculate = function(){
+			var gross = this.get('basic') + this.get('hra') + this.get('da');
+			var net = gross * ((100-this.get('tax'))/100);
+			this.set('salary', net);
+		}*/
+
+		var SalaryCalculator = Backbone.Model.extend({
+			defaults : {
+				basic : 0,
+				hra : 0,
+				da : 0,
+				tax : 0,
+				salary : 0
+			},
+			calculate : function(){
+				var gross = this.get('basic') + this.get('hra') + this.get('da');
+				var net = gross * ((100-this.get('tax'))/100);
+				this.set('salary', net);
+			}
+		});
+
+		var SalaryCalculatorView = Backbone.View.extend({
+			//Reacting to user actions
+			"events" : {
+				"change #txtBasic" : "updateBasic",
+				"change #txtHra" : "updateHra",
+				"change #txtDa" : "updateDa",
+				"change #rangeTax" : "updateTax",
+				"click #btnCalculate" : "triggerCalculate"
+			},
+			triggerCalculate : function(){
+				this.model.calculate();
+			},
+			"updateBasic" : function(e){
+				this.model.set('basic', e.target.value.toInt());
+			},
+			updateHra : function(e){
+				this.model.set('hra', e.target.value.toInt());
+			},
+			updateDa : function(e){
+				this.model.set('da', e.target.value.toInt());
+			},
+			updateTax : function(e){
+				this.model.set('tax', e.target.value.toInt());
+			},
+			//Reacting to model changes
+			initialize : function(){
+				var calculator = this.model;
+				var $root = this.$el;
+				calculator.on('change:basic', function(){
+					$root.find("#txtBasic").val(calculator.get('basic'));
+				});
+				calculator.on('change:hra', function(){
+					$root.find("#txtHra").val(calculator.get('hra'));
+				});
+				calculator.on('change:da', function(){
+					$root.find("#txtDa").val(calculator.get('da'));
+				});
+				calculator.on('change:tax', function(){
+					$root.find("#rangeTax").val(calculator.get('tax'));
+					$root.find("#spanTax").html(calculator.get('tax'));
+				});
+				calculator.on('change:salary', function(){
+					$root.find("#divResult").html(calculator.get('salary'));
+				});
+			},
+			render : function(){
+				this.$el.append($("#calculatorTemplate").html());
+			}
+
+		})
+
+		
+	</script>
+</head>
+<body>
+	<h1>Salary Calculator</h1>
+	<hr>
+	
+</body>
+</html>
