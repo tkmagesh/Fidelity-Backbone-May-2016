@@ -8,13 +8,6 @@
       "createdAt": "2016-02-16T16:27:53.060Z"
     },
     {
-      "id": 2,
-      "name": "Server communication failure",
-      "isClosed": false,
-      "desc": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "createdAt": "2016-04-27T07:37:30.935Z"
-    },
-    {
       "id": 3,
       "name": "Validation failure",
       "isClosed": false,
@@ -40,6 +33,13 @@
       "desc": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
       "createdAt": "2016-04-27T07:37:30.935Z",
       "id": 7
+    },
+    {
+      "name": "Sample Bug",
+      "isClosed": false,
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "createdAt": "2016-05-28T06:28:47.175Z",
+      "id": 8
     }
   ]
 }

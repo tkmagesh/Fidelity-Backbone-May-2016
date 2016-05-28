@@ -26,31 +26,80 @@
 	<script src="jquery-2.2.4.js"></script>
 	<script>
 	$(function(){
-		$("#btnAdd").click(function(){
-			$("<li></li>")
-				.html($("#txtBug").val())
-				.appendTo("#olBugList");
+		$.ajax({
+		   url : "/bugs",
+		   type : "get",
+		   dataType : "json",
+		   contentType : "application/json",
+		   success : function(response){
+		      for(var i =0; i<response.length; i++)
+		      	createBugListItem(response[i]);
+		   }
 		});
+		$("#btnAdd").click(function(){
+			var bugData = {
+				name: $("#txtBug").val(),
+      isClosed: false,
+      desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      createdAt: new Date()
+			};
+			$.ajax({
+				type : 'post',
+				url : '/bugs',
+				dataType : 'json',
+				contentType : 'application/json',
+				data : JSON.stringify(bugData),
+				success : createBugListItem
+			})
+			
+		});
+		function createBugListItem(bug){
+			$("<li></li>")
+				.html(bug.name)
+				.attr("bug-id", bug.id)
+				.addClass(bug.isClosed ? "closed" : "")	
+				.appendTo("#olBugList");
+		}
 		$("#olBugList").on("click", "li", function (e){
-			$(e.target).toggleClass('closed');
+			var $target = $(e.target).toggleClass('closed');
+			var bugId = $target.attr("bug-id");
+			var bugData = {isClosed : $target.hasClass('closed')}
+			$.ajax({
+				type : 'patch',
+				url : '/bugs/' + bugId,
+				dataType : 'json',
+				contentType : 'application/json',
+				data : JSON.stringify(bugData)
+			});
 		});
 
 		$("#btnRemoveClosed").click(function(){
-			$("#olBugList > li.closed").remove();	
+			$("#olBugList > li.closed").each(function(index, element){
+				var $element = $(element),
+					bugId = $element.attr("bug-id");
+				$.ajax({
+					type : 'delete',
+					url : '/bugs/' + bugId,
+					success : function(){
+						$element.remove();
+					}
+				});	
+			})
 		});
+		
 	});
 	</script>
 </head>
 <body>
 	<h1>Bug Tracker</h1>
 	<hr>
+	
 	<label for="">Bug :</label>
 	<input type="text" name="" id="txtBug">
 	<input type="button" value="Add Bug" id="btnAdd">
 	<input type="button" value="Remove Closed" id="btnRemoveClosed">
 	<ol id="olBugList">
-		<li class="closed">User authentication failure</li>
-		<li>Server communication distrupts</li>
+		
 	</ol>
 </body>
 </html>
