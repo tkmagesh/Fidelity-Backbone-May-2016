@@ -23,7 +23,7 @@
 				}
 				
 			});
-			$("#txtName").blur(function(){
+			/*$("#txtName").blur(function(){
 				var name = $("#txtName").val();
 				if (!name){
 					$("#error").html('Name is required');
@@ -39,7 +39,27 @@
 					$("#error").html('');
 					$("#txtName").removeClass('error');
 				}
-			});
+			});*/
+			var events = {
+				blur : function(){
+					var name = $("#txtName").val();
+					if (!name){
+						$("#error").html('Name is required');
+						$("#txtName").addClass('error');
+					} else {
+						$("#error").html('');
+						$("#txtName").removeClass('error');
+					}
+				},
+				keyup : function(){
+					var name = $("#txtName").val();
+					if (name){
+						$("#error").html('');
+						$("#txtName").removeClass('error');
+					}
+				}
+			}
+			$("#txtName").bind(events);
 		});
 	</script>
 </head>
