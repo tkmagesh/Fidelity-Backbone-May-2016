@@ -21,7 +21,7 @@
 	</style>
 	<script src="jquery-2.2.4.js"></script>
 	<script>
-		Object.prototype.toInt = function(){
+		String.prototype.toInt = function(){
 			return parseInt(this,10);
 		};
 		/*SalaryCalculator
@@ -74,51 +74,81 @@
 			this.set('salary', net);
 		}
 
-		//View
-		$(function(){
-			window.calculator = new SalaryCalculator();
-
+		function SalaryCalculatorView(calculator, $root){
 			//Reacting to user actions
-			$("#txtBasic").change(function(){
-				calculator.set('basic',  $("#txtBasic").val().toInt());
+			$root.on('change',"#txtBasic", function(){
+				calculator.set('basic', this.value.toInt());
 			});
-			$("#txtHra").change(function(){
-				calculator.set('hra',  $("#txtHra").val().toInt());
+			$root.on('change',"#txtHra", function(){
+				calculator.set('hra', this.value.toInt());
 			});
-			$("#txtDa").change(function(){
-				calculator.set('da',  $("#txtDa").val().toInt());
+			$root.on('change',"#txtDa", function(){
+				calculator.set('da', this.value.toInt());
 			});
-			$("#rangeTax").change(function(){
-				calculator.set('tax',  $("#rangeTax").val().toInt());
+			$root.on('change',"#rangeTax", function(){
+				calculator.set('tax', this.value.toInt());
 			});
-			$("#btnCalculate").click(function(){
+			$root.on('click',"#btnCalculate", function(){
 				calculator.calculate();
 			});
 
 			//Reacting to model changes
 			calculator.onChange('basic', function(){
-				$("#txtBasic").val(calculator.get('basic'));
+				$root.find("#txtBasic").val(calculator.get('basic'));
 			});
 			calculator.onChange('hra', function(){
-				$("#txtHra").val(calculator.get('hra'));
+				$root.find("#txtHra").val(calculator.get('hra'));
 			});
 			calculator.onChange('da', function(){
-				$("#txtDa").val(calculator.get('da'));
+				$root.find("#txtDa").val(calculator.get('da'));
 			});
 			calculator.onChange('tax', function(){
-				$("#rangeTax").val(calculator.get('tax'));
-				$("#spanTax").html(calculator.get('tax'));
+				$root.find("#rangeTax").val(calculator.get('tax'));
+				$root.find("#spanTax").html(calculator.get('tax'));
 			});
 			calculator.onChange('salary', function(){
-				$("#divResult").html(calculator.get('salary'));
+				$root.find("#divResult").html(calculator.get('salary'));
 			});
+		}
+
+		//View
+		$(function(){
+			window.calculator = new SalaryCalculator();
+			var calculatorView1 = new SalaryCalculatorView(calculator, $("#view1"));
+			var calculatorView2 = new SalaryCalculatorView(calculator, $("#view2"));
 		});
 	</script>
 </head>
 <body>
 	<h1>Salary Calculator</h1>
 	<hr>
-	<div class="content">
+	<div class="content" id="view1">
+		<div class="field">
+			<label for="">Basic :</label>
+			<input type="text" name="" id="txtBasic">
+		</div>
+		<div class="field">
+			<label for="">HRA :</label>
+			<input type="text" name="" id="txtHra">
+		</div>
+		<div class="field">
+			<label for="">DA :</label>
+			<input type="text" name="" id="txtDa">
+		</div>
+		<div class="field">
+			<label for="">Tax [%] :</label>
+			<input type="range" name="" id="rangeTax" min="0" max="30" value="0">
+			<span id="spanTax">[Tax]</span>
+		</div>
+		<div class="field">
+			<input type="button" value="Calculate" id="btnCalculate">
+		</div>
+		<div class="field">
+			<div id="divResult">[Salary]</div>
+		</div>
+	</div>
+	<hr>
+	<div class="content" id="view2">
 		<div class="field">
 			<label for="">Basic :</label>
 			<input type="text" name="" id="txtBasic">
