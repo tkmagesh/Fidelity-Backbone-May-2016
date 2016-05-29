@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	
+	<script type="text/template" id="calculatorTemplate">
+		<input type="text" name="" id="txtNumber1" value="{{number1}}">
+		<input type="text" name="" id="txtNumber2" value="{{number2}}">
+		<input type="button" value="Add" id="btnAdd">
+		<input type="button" value="Subtract" id="btnSubtract">
+		<div id="divResult">{{result}}</div>
+	</script>
+	<script src="jquery-2.2.4.js"></script>
+	<script src="underscore.js"></script>
+	<script src="backbone.js"></script>
+	<script src="handlebars-v4.0.5.js"></script>
+	<script>
+		var Calculator = Backbone.Model.extend({
+			defaults :{
+				number1 : 100,
+				number2 : 200,
+				result : 0
+			},
+			add : function(){
+				this.set('result', this.get('number1') + this.get('number2'));
+			},
+			subtract : function(){
+				this.set('result', this.get('number1') - this.get('number2'));
+			}
+		});
+		var CalculatorView = Backbone.View.extend({
+			events : {
+				"change input" : "updateCalculator",
+				"click #btnAdd" : "triggerAdd",
+				"click #btnSubtract" : "triggerSubtract"
+			},
+			updateCalculator : function(){
+				this.model.set('number1', parseInt(this.$("#txtNumber1").val(),10));
+				this.model.set('number2', parseInt(this.$("#txtNumber2").val(),10));
+			},
+			triggerAdd : function(){
+				this.model.add();
+			},
+			triggerSubtract : function(){
+				this.model.subtract();
+			},
+			initialize: function(){
+				//this.model.on('change', this.render.bind(this));
+				_.bindAll(this, "render");
+				this.model.on('change', this.render);
+			},
+			
+			render : function(){
+				if (!this.template){
+					var templateHTML = $("#calculatorTemplate").html();
+					this.template = Handlebars.compile(templateHTML);
+				};
+				var calculatorHtml = this.template(this.model.toJSON());
+				this.$el.html(calculatorHtml);
+			}
+		});
+	</script>
+</head>
+<body>
+	<h1>Calculator</h1><hr />
+</body>
+</html>

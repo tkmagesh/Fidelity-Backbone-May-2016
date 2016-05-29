@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Bug Tracker</title>
+	<script src="jquery-2.2.4.js"></script>
+	<script src="underscore.js"></script>
+	<script src="backbone.js"></script>
+	<script src="handlebars-v4.0.5.js"></script>
+	<script>
+		var Bug = Backbone.Model.extend({
+			defaults : {
+				name : '',
+				desc : 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+				isClosed : false,
+				createdAt : new Date()
+	 		},
+	 		initialize : function(){
+	 			this.createdAt = new Date()
+	 		},
+	 		toggle : function(){
+	 			this.save('isClosed', !this.get('isClosed'));
+	 		}
+	 	});
+	 	var Bugs = Backbone.Collection.extend({
+	 		model : Bug,
+	 		url : 'http://localhost:3000/bugs'
+	 	});
+	</script>
+</head>
+<body>
+	<h1>Bug Tracker</h1>
+</body>
+</html>
