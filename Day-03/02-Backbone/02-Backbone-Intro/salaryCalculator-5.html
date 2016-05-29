@@ -124,10 +124,18 @@
 				"click #btnCalculate" : "triggerCalculate"
 			},
 			updateCalculator : function(){
-				this.model.set('basic', this.$("#txtBasic").val().toInt());
+				/*this.model.set('basic', this.$("#txtBasic").val().toInt());
 				this.model.set('hra', this.$("#txtHra").val().toInt());
 				this.model.set('da', this.$("#txtDa").val().toInt());
-				this.model.set('tax', this.$("#rangeTax").val().toInt());
+				this.model.set('tax', this.$("#rangeTax").val().toInt());*/
+
+				var data = {
+					basic : this.$("#txtBasic").val().toInt(),
+					hra : this.$("#txtHra").val().toInt(),
+					da : this.$("#txtDa").val().toInt(),
+					tax : this.$("#rangeTax").val().toInt(),
+				};
+				this.model.set(data);
 			},
 			triggerCalculate : function(){
 				this.model.calculate();
