@@ -3,10 +3,38 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Bug Tracker</title>
+	<style>
+	.closed{
+		color : red;
+		text-decoration: line-through;
+		font-style: italice;
+		font-weight: bold;
+	}
+	li{
+		cursor: pointer;
+	}
+	</style>
 	<script src="jquery-2.2.4.js"></script>
 	<script src="underscore.js"></script>
 	<script src="backbone.js"></script>
 	<script src="handlebars-v4.0.5.js"></script>
+	<script type="text/x-template" id="bugTemplate">
+		{{#if isClosed}}
+			<span class="closed">
+		{{else}}
+			<span>
+		{{/if}}
+			{{name}}
+		</span>
+	</script>
+	<script type="text/x-template" id="bugsCollectionTemplate">
+		<label for="">Bug :</label>
+		<input type="text" name="" id="txtBugName" />
+		<input type="button" value="Add Bug" id="btnAddBug" />
+		<input type="button" value="Remove Closed" id="btnRemoveClosed" />
+		<ol id="olBugList"></ol>
+	</script>
+
 	<script>
 		var Bug = Backbone.Model.extend({
 			defaults : {
@@ -22,13 +50,81 @@
 	 			this.save('isClosed', !this.get('isClosed'));
 	 		}
 	 	});
+	 	var BugView = Backbone.View.extend({
+	 		tagName : 'li',
+	 		events : {
+	 			"click" : "toggleBug"
+	 		},
+	 		toggleBug : function(){
+	 			this.model.toggle();
+	 		},
+	 		initialize : function(){
+	 			_.bindAll(this, "render", "remove");
+	 			this.model.on('change', this.render);
+	 			this.model.on('destroy', this.remove);
+	 		},
+	 		render : function(){
+	 			if (!this.template){
+	 				this.template = Handlebars.compile($("#bugTemplate").html());
+	 			}
+	 			this.$el.html(this.template(this.model.toJSON()));
+	 			return this;
+	 		},
+	 		remove : function(){
+	 			this.$el.remove();
+	 		}
+	 	})
 	 	var Bugs = Backbone.Collection.extend({
 	 		model : Bug,
-	 		url : 'http://localhost:3000/bugs'
+	 		url : 'http://localhost:3000/bugs',
+	 		removeClosed : function(){
+	 			this.filter(function(bug){
+	 				return bug.get('isClosed')
+	 			}).forEach(function(bug){
+	 				bug.destroy();
+	 			});
+	 		}
+	 	});
+
+	 	var BugsCollectionView = Backbone.View.extend({
+	 		//react to user actions
+	 		events : {
+	 			"click #btnAddBug" : "addNewBug",
+	 			"click #btnRemoveClosed" : "removeClosed"
+	 		},
+	 		addNewBug : function(){
+	 			var bugName = this.$("#txtBugName").val();
+	 			this.collection.create({name : bugName});
+	 		},
+	 		removeClosed : function(){
+	 			this.collection.removeClosed();
+	 		},
+	 		//react to collection changes
+	 		initialize : function(){
+	 			_.bindAll(this, 'addBugToList', "removeClosed");
+	 			this.collection.on('add', this.addBugToList);
+	 		},
+	 		addBugToList : function(newBug){
+	 			var newBugView = new BugView({model : newBug});
+	 			newBugView.render().$el.appendTo(this.$("#olBugList"));
+	 		},
+	 		//render
+	 		render : function(){
+	 			this.$el.html($("#bugsCollectionTemplate").html());
+	 			return this;
+	 		}
+	 	})
+
+	 	$(function(){
+	 		var bugs = new Bugs();
+	 		var bugsView = new BugsCollectionView({collection : bugs});
+	 		bugsView.render().$el.appendTo(document.body);
+	 		bugs.fetch();
 	 	});
 	</script>
 </head>
 <body>
 	<h1>Bug Tracker</h1>
+
 </body>
 </html>
