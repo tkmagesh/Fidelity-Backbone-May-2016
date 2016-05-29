@@ -120,19 +120,27 @@
 		var SalaryCalculatorView = Backbone.View.extend({
 			//Reacting to user actions
 			"events" : {
-				"change input" : "updateCalculator",
+				"change #txtBasic" : "updateBasic",
+				"change #txtHra" : "updateHra",
+				"change #txtDa" : "updateDa",
+				"change #rangeTax" : "updateTax",
 				"click #btnCalculate" : "triggerCalculate"
-			},
-			updateCalculator : function(){
-				this.model.set('basic', this.$("#txtBasic").val().toInt());
-				this.model.set('hra', this.$("#txtHra").val().toInt());
-				this.model.set('da', this.$("#txtDa").val().toInt());
-				this.model.set('tax', this.$("#rangeTax").val().toInt());
 			},
 			triggerCalculate : function(){
 				this.model.calculate();
 			},
-			
+			"updateBasic" : function(e){
+				this.model.set('basic', e.target.value.toInt());
+			},
+			updateHra : function(e){
+				this.model.set('hra', e.target.value.toInt());
+			},
+			updateDa : function(e){
+				this.model.set('da', e.target.value.toInt());
+			},
+			updateTax : function(e){
+				this.model.set('tax', e.target.value.toInt());
+			},
 			//Reacting to model changes
 			initialize : function(){
 				var calculator = this.model;
