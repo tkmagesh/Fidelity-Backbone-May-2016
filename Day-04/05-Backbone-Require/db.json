@@ -1,0 +1,18 @@
+{
+  "bugs": [
+    {
+      "name": "Juzt a real dummy bug",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "isClosed": false,
+      "createdAt": "2016-05-29T10:19:07.524Z",
+      "id": 10
+    },
+    {
+      "name": "sda;lfjfas adf;alsfas",
+      "desc": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "isClosed": false,
+      "createdAt": "2016-05-29T10:33:18.955Z",
+      "id": 12
+    }
+  ]
+}
